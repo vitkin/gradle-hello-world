@@ -1,18 +1,9 @@
-pipeline {    
-    agent {
-        node 'slave1'
-    }    
-    stages {        
-        stage('Check-out') {            
-            steps {                
-                scm checkout            
-            }        
-        }        
-        stage('Build') 
-        {            
-            steps {                
-                sh 'gradle build'  
-            }        
-        }    
-    }
+node('slave1') {
+  stage('checkout') {
+    checkout scm
+  }
+  stage('build') {
+    gradleHome = tool 'gradle4'
+    sh "${gradleHome}/bin/gradle build"
+  }
 }
